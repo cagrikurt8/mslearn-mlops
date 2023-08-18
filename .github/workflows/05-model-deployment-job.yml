@@ -1,0 +1,29 @@
+name: Deploy Model to Azure Machine Learning
+
+on:
+  workflow_run:
+    workflows:
+      - Trigger an Azure Machine Learning job with push
+    types:
+      - completed
+
+jobs:
+  deploy-model:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@main
+    - name: Install az ml extension
+      run: az extension add -n ml -y
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+    - name: Create Online Endpoint
+      run: az ml online-endpoint create --file ./src/online-endpoint.yml --workspace-name ckurt-ml-workspace --resource-group CK_AI-ML
+      continue-on-error: true
+    - name: Create Online Deployment
+      run: az ml online-deployment create --file ./src/online-deployment.yml --workspace-name ckurt-ml-workspace --resource-group CK_AI-ML
+    - name: Test Deployment
+      run: az ml online-endpoint invoke --name mlops-endpoint --request-file ./src/sample_request.json --workspace-name ckurt-ml-workspace --resource-group CK_AI-ML
