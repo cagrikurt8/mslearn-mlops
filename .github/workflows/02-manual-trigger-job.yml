@@ -24,6 +24,7 @@ jobs:
         pytest tests/
   train:
     runs-on: ubuntu-latest
+    needs: test
     steps:
     - name: Check out repo
       uses: actions/checkout@main
