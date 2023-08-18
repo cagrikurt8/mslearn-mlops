@@ -24,6 +24,6 @@ jobs:
       run: az ml online-endpoint create --file ./src/online-endpoint.yml --workspace-name ckurt-ml-workspace --resource-group CK_AI-ML
       continue-on-error: true
     - name: Create Online Deployment
-      run: az ml online-deployment create --file ./src/online-deployment.yml --workspace-name ckurt-ml-workspace --resource-group CK_AI-ML
+      run: az ml online-deployment create --file ./src/online-deployment.yml --all-traffic --workspace-name ckurt-ml-workspace --resource-group CK_AI-ML
     - name: Test Deployment
       run: az ml online-endpoint invoke --name mlops-endpoint --request-file ./src/sample_request.json --workspace-name ckurt-ml-workspace --resource-group CK_AI-ML
