@@ -3,15 +3,10 @@
 import argparse
 import glob
 import os
-
 import pandas as pd
-
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-
 import mlflow
-
-
 
 
 # define functions
@@ -40,7 +35,10 @@ def get_csvs_df(path):
 
 # TO DO: add function to split data
 def split_data(df):
-    X, y = df[['Pregnancies','PlasmaGlucose','DiastolicBloodPressure','TricepsThickness','SerumInsulin','BMI','DiabetesPedigree','Age']].values, df['Diabetic'].values
+    X = df[['Pregnancies', 'PlasmaGlucose', 'DiastolicBloodPressure',
+            'TricepsThickness', 'SerumInsulin', 'BMI',
+            'DiabetesPedigree', 'Age']].values
+    y = df['Diabetic'].values
     return train_test_split(X, y, test_size=0.30, random_state=0)
 
 
@@ -64,6 +62,7 @@ def parse_args():
 
     # return args
     return args
+
 
 # run script
 if __name__ == "__main__":
