@@ -25,6 +25,7 @@ jobs:
   train:
     runs-on: ubuntu-latest
     needs: test
+    environment: development
     steps:
     - name: Check out repo
       uses: actions/checkout@main
